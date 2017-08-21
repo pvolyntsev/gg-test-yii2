@@ -35,8 +35,19 @@ return [
 ```
 
 
-#### Миграция таблиц ####
+## Загрузка моделей и начальных данных в СУБД
 ```
-cd /var/www/gg_test_yii2
+cd /var/www/gg-test-yii2
 php yii migrate/up
 ```
+
+
+# Запуск тестов
+
+Реализованы только модульные тесты
+
+```
+vendor/bin/codecept run unit
+```
+
+
