@@ -13,7 +13,7 @@ cd /var/www
 git clone https://github.com/pvolyntsev/gg-test-yii2.git
 cd gg-test-yii2
 composer global require "fxp/composer-asset-plugin:~1.1.4"
-composer update
+composer install
 ```
 
 ## Создание БД
@@ -50,4 +50,22 @@ php yii migrate/up
 vendor/bin/codecept run unit
 ```
 
+```
+Codeception PHP Testing Framework v2.3.5
+Powered by PHPUnit 6.2.4 by Sebastian Bergmann and contributors.
 
+Unit Tests (7) ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+✔ PageEAVTes: Page by id (0.51s)
+✔ PageEAVTes: Read extra attribute (0.11s)
+✔ PageEAVTes: Write extra attribute (0.05s)
+✔ PageEAVTes: Save extra attributes (0.25s)
+✔ PageEAVTes: Remove extra attribute (0.09s)
+✔ PageEAVTes: New entity with attributes (0.11s)
+✔ PageEAVTes: Remove attributes when delete entity (0.09s)
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+Time: 5.18 seconds, Memory: 14.00MB
+
+OK (7 tests, 30 assertions)
+```
