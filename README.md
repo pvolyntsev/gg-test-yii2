@@ -1,4 +1,6 @@
-# Инструкция по установке приложения GG Test Yii2 #
+# Приложение GG Test Yii2 #
+
+Добавление возможности бесконечного расширения списка атрибутов у хранимых сущностей
 
 ## Минимальные требования
 - PHP 7.0+
@@ -42,7 +44,7 @@ php yii migrate/up
 ```
 
 
-# Запуск тестов
+# Тесты
 
 Реализованы только модульные тесты
 
@@ -68,4 +70,59 @@ Unit Tests (7) -----------------------------------------------------------------
 Time: 5.18 seconds, Memory: 14.00MB
 
 OK (7 tests, 30 assertions)
+```
+
+# Использование
+
+Используется только для хранимых классов, которые наследуюются от ActiveRecord.
+
+Для включения такой возможности необходимо указать базовый класс `\app\library\eav\BaseActiveRecord`
+
+## Пример подключения:
+
+```sql
+CREATE TABLE `shop_item` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`),
+) ENGINE=InnoDB DEFAULT CHARSET=utf8
+```
+
+```php
+<?php
+
+class ShopItem extends \app\library\eav\BaseActiveRecord
+{
+    public static function tableName()
+    {
+        return 'shop_item';
+    }
+
+    public function rules()
+    {
+        return [
+            [['name'], 'required'],
+            [['name' => 255],
+        ];
+    }
+
+    public function attributeLabels()
+    {
+        return [
+            'id' => 'ID',
+            'name' => 'Name',
+        ];
+    }
+}
+```
+
+## Пример использования
+
+```php
+<?php
+
+$shopItem = new ShopItem; // или ShopItem::findOne(<id>)
+$shopItem->name = 'Car'; // обращение к свойству name, хранящемуся в таблице `shop_item`
+$shopItem->color = 'red'; // обращение к дополнительному свойству
+unset($shopItem->color); // удаление дополнительного свойства
 ```
