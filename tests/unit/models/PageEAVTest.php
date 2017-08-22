@@ -51,4 +51,28 @@ class PageEAVTes extends \Codeception\Test\Unit
         expect_that($page = PageEAV::findOne(1));
         expect($page->{$randomAttribute})->equals($testValue);
     }
+
+    public function testNewEntityWithAttributes()
+    {
+        $page = new PageEAV([
+            'alias' => sha1(time()),
+            'template' => 'basic',
+            'title' => 'Title',
+            'description' => 'Description',
+            'keywords' => 'Keywords',
+            'text' => 'test',
+            'created' => date('c'),
+            'updated' => date('c'),
+        ]);
+        $randomAttribute = 'x'.sha1(time());
+
+        expect($page->{$randomAttribute})->internalType('null');
+        $page->{$randomAttribute} = $testValue = date('c');
+
+        expect_that($page->save());
+        expect_that($id = $page->id);
+
+        expect_that($page = PageEAV::findOne($id));
+        expect($page->{$randomAttribute})->equals($testValue);
+    }
 }
