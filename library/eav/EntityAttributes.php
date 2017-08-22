@@ -83,6 +83,22 @@ class EntityAttributes extends Component
     }
 
     /**
+     * @param string $name
+     * @return bool
+     * @throws \Exception
+     * @throws \Throwable
+     */
+    public function deleteAttribute($name)
+    {
+        if (isset($this->_attributes[$name]))
+        {
+            $this->_attributes[$name]->delete();
+            unset($this->_attributes[$name]);
+        }
+        return true;
+    }
+
+    /**
      * @return EntityAttribute[]|array|\yii\db\ActiveRecord[]
      */
     public function getAttributes()

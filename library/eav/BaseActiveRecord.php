@@ -111,4 +111,15 @@ abstract class BaseActiveRecord extends \yii\db\ActiveRecord
             $this->getEavAttributes()->setAttribute($name, $value);
         }
     }
+
+    /**
+     * @inheritdoc
+     */
+    public function __unset($name)
+    {
+        if ($this->getEavAttributes()->hasAttribute($name))
+            return $this->getEavAttributes()->deleteAttribute($name);
+        else
+            return parent::__unset($name);
+    }
 }
