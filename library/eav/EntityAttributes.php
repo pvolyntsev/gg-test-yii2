@@ -147,4 +147,16 @@ class EntityAttributes extends Component
         }
         return true;
     }
+
+    /**
+     * @return bool
+     */
+    public function deleteAll()
+    {
+        $class = $this->attributesClass;
+        return $class::deleteAll([
+            'entity' => get_class($this->entity),
+            'entity_id' => $this->entity->getPrimaryKey(),
+        ]);
+    }
 }

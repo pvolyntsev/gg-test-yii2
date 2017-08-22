@@ -135,4 +135,10 @@ abstract class BaseActiveRecord extends \yii\db\ActiveRecord
         // TODO перевести на события
         return $this->getEavAttributes()->saveAll() && parent::afterSave($insert, $changedAttributes);
     }
+
+    public function afterDelete()
+    {
+        // TODO перевести на события
+        return $this->getEavAttributes()->deleteAll() && parent::afterDelete();
+    }
 }

@@ -1,5 +1,6 @@
 <?php
 namespace tests\models;
+use app\library\model\EntityAttributeValue;
 use app\models\PageEAV;
 
 class PageEAVTes extends \Codeception\Test\Unit
@@ -74,5 +75,32 @@ class PageEAVTes extends \Codeception\Test\Unit
 
         expect_that($page = PageEAV::findOne($id));
         expect($page->{$randomAttribute})->equals($testValue);
+    }
+
+    public function testRemoveAttributesWhenDeleteEntity()
+    {
+        $page = new PageEAV([
+            'alias' => sha1(time()),
+            'template' => 'basic',
+            'title' => 'Title',
+            'description' => 'Description',
+            'keywords' => 'Keywords',
+            'text' => 'test',
+            'created' => date('c'),
+            'updated' => date('c'),
+        ]);
+        $randomAttribute = 'x'.sha1(time());
+        $page->{$randomAttribute} = $testValue = date('c');
+
+        expect_that($page->save());
+        expect_that($id = $page->id);
+
+        expect_that($page2 = PageEAV::findOne($id));
+        expect_that($page2->delete());
+
+        $page3 = new PageEAV([
+            'id' => $id, // создание фиктивной записи, которую ранее уже удалили
+        ]);
+        expect($page3->{$randomAttribute})->internalType('null');
     }
 }
