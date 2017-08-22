@@ -35,26 +35,13 @@ $requirements = array(
         'by' => 'All DB-related classes',
     ),
     array(
-        'name' => 'PDO SQLite extension',
-        'mandatory' => false,
-        'condition' => extension_loaded('pdo_sqlite'),
-        'by' => 'All DB-related classes',
-        'memo' => 'Required for SQLite database.',
-    ),
-    array(
         'name' => 'PDO MySQL extension',
         'mandatory' => false,
         'condition' => extension_loaded('pdo_mysql'),
         'by' => 'All DB-related classes',
         'memo' => 'Required for MySQL database.',
     ),
-    array(
-        'name' => 'PDO PostgreSQL extension',
-        'mandatory' => false,
-        'condition' => extension_loaded('pdo_pgsql'),
-        'by' => 'All DB-related classes',
-        'memo' => 'Required for PostgreSQL database.',
-    ),
+
     // Cache :
     array(
         'name' => 'Memcache extension',
@@ -78,13 +65,6 @@ $requirements = array(
         'condition' => $requirementsChecker->checkPhpIniOff("allow_url_include"),
         'by' => 'Security reasons',
         'memo' => '"allow_url_include" should be disabled at php.ini',
-    ),
-    'phpSmtp' => array(
-        'name' => 'PHP mail SMTP',
-        'mandatory' => false,
-        'condition' => strlen(ini_get('SMTP')) > 0,
-        'by' => 'Email sending',
-        'memo' => 'PHP mail SMTP server required',
     ),
 );
 
