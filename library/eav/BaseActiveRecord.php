@@ -4,6 +4,7 @@ namespace app\library\eav;
 
 use Yii;
 use yii\base\InvalidParamException;
+use yii\base\Model;
 use yii\base\UnknownPropertyException;
 
 /**
@@ -128,6 +129,15 @@ abstract class BaseActiveRecord extends \yii\db\ActiveRecord
         $isValid = parent::validate($attributeNames, $clearErrors);
         $eavIsValid = $this->getEavAttributes()->validate();
         return $isValid && $eavIsValid;
+    }
+
+    public function isTransactional($operation)
+    {
+        // все операции (вставка, изменение и удаление) должны выполняться в транзакциях из-за дополнительных атрибутов
+        if ($operation & (self::OP_INSERT | self::OP_UPDATE | self::OP_DELETE))
+            return true;
+        else
+            return parent::isTransactional($operation);
     }
 
     public function afterSave($insert, $changedAttributes)
