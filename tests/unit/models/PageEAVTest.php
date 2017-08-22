@@ -29,16 +29,6 @@ class PageEAVTes extends \Codeception\Test\Unit
         expect($page->new_attribute)->equals($testValue);
     }
 
-    public function testRemoveExtraAttribute()
-    {
-        expect_that($page = PageEAV::findOne(1));
-        expect($page->new_attribute)->internalType('null');
-        $page->new_attribute = $testValue = date('c');
-        expect($page->new_attribute)->equals($testValue);
-        unset($page->new_attribute);
-        expect($page->new_attribute)->internalType('null');
-    }
-
     public function testSaveExtraAttributes()
     {
         expect_that($page = PageEAV::findOne(1));
@@ -51,6 +41,20 @@ class PageEAVTes extends \Codeception\Test\Unit
 
         expect_that($page = PageEAV::findOne(1));
         expect($page->{$randomAttribute})->equals($testValue);
+    }
+
+    public function testRemoveExtraAttribute()
+    {
+        expect_that($page = PageEAV::findOne(1));
+        expect($page->new_attribute)->internalType('null');
+        $page->new_attribute = $testValue = date('c');
+        expect($page->new_attribute)->equals($testValue);
+
+        unset($page->new_attribute);
+
+        expect($page->new_attribute)->internalType('null');
+        expect_that($page2 = PageEAV::findOne(1));
+        expect($page2->new_attribute)->internalType('null');
     }
 
     public function testNewEntityWithAttributes()
