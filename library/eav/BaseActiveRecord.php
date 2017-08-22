@@ -122,4 +122,17 @@ abstract class BaseActiveRecord extends \yii\db\ActiveRecord
         else
             return parent::__unset($name);
     }
+
+    public function validate($attributeNames = null, $clearErrors = true)
+    {
+        $isValid = parent::validate($attributeNames, $clearErrors);
+        $eavIsValid = $this->getEavAttributes()->validate();
+        return $isValid && $eavIsValid;
+    }
+
+    public function afterSave($insert, $changedAttributes)
+    {
+        // TODO перевести на события
+        return $this->getEavAttributes()->saveAll() && parent::afterSave($insert, $changedAttributes);
+    }
 }

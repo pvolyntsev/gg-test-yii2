@@ -116,4 +116,35 @@ class EntityAttributes extends Component
         }
         return $this->_attributes;
     }
+
+    /**
+     * @return bool
+     */
+    public function validate()
+    {
+        // TODO валидация всех атрибутов в $this->_attributes
+        return true;
+    }
+
+    /**
+     * @return bool
+     */
+    public function saveAll()
+    {
+        if (is_array($this->_attributes))
+        {
+            foreach($this->_attributes as $attribute)
+            {
+                if($attribute->getIsNewRecord() // сохранение новых и изменённых записей
+                    || $attribute->isAttributeChanged('attribute')
+                    || $attribute->isAttributeChanged('value'))
+                {
+                    $attribute->entity_id = $this->entity->getPrimaryKey();
+                    if (!$attribute->save(false))
+                        return false;
+                }
+            }
+        }
+        return true;
+    }
 }

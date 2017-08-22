@@ -37,4 +37,18 @@ class PageEAVTes extends \Codeception\Test\Unit
         unset($page->new_attribute);
         expect($page->new_attribute)->internalType('null');
     }
+
+    public function testSaveExtraAttributes()
+    {
+        expect_that($page = PageEAV::findOne(1));
+        $randomAttribute = 'x'.sha1(time());
+
+        expect($page->{$randomAttribute})->internalType('null');
+        $page->{$randomAttribute} = $testValue = date('c');
+
+        expect_that($page->save());
+
+        expect_that($page = PageEAV::findOne(1));
+        expect($page->{$randomAttribute})->equals($testValue);
+    }
 }
