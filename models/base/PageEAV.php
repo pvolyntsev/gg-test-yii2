@@ -20,7 +20,7 @@ use Yii;
  * @property string $created
  * @property string $updated
  */
-class PageEAV extends \app\library\model\EntityAttributeValue
+class PageEAV extends \app\library\eav\BaseActiveRecord
 {
     /**
      * @inheritdoc
